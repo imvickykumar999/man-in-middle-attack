@@ -7,11 +7,11 @@ def forward_data(source, destination, direction):
         if not data:
             break
         if direction == "client_to_server":
+            data += b' ... ATTACK c2s'
             print(f"Intercepted from client: {data.decode()}")
-            data += b' : ATTACK'
         elif direction == "server_to_client":
+            data += b' ... ATTACK s2c'
             print(f"Intercepted from server: {data.decode()}")
-            data += b' : ATTACK'
         destination.send(data)
 
 def handle_client(client_socket, remote_host, remote_port):

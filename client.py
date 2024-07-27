@@ -9,12 +9,12 @@ def receive_messages():
         if not data:
             break
         message = data.decode()
-        text_area.insert(tk.END, f"Server: {message}\n")
+        text_area.insert(tk.END, f"{message}\n\n")
 
 def send_message(event=None):
     message = entry.get()
     entry.delete(0, tk.END)
-    text_area.insert(tk.END, f"Client: {message}\n")
+    text_area.insert(tk.END, f"\t\t\t\t{message}\n\n")
     client_socket.sendall(message.encode())
 
 def start_client():
@@ -27,7 +27,7 @@ def start_client():
 
 app = tk.Tk()
 app.title("Client Chat")
-app.geometry("400x300")
+app.geometry("400x800")
 
 text_area = ScrolledText(app, wrap=tk.WORD)
 text_area.pack(expand=True, fill=tk.BOTH)
