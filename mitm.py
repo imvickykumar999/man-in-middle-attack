@@ -1,4 +1,3 @@
-# mitm.py
 import socket
 import threading
 
@@ -6,21 +5,29 @@ def handle_client(client_socket, remote_host, remote_port):
     remote_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     remote_socket.connect((remote_host, remote_port))
     
-    while True:
-        # Receive data from the client
-        local_data = client_socket.recv(4096)
-        if len(local_data):
-            print(f"Intercepted from client: {local_data.decode()}")
-            # Send the received data to the remote host
-            remote_socket.send(local_data)
+    def forward_data(source, destination, direction):
+        while True:
+            data = source.recv(4096)
+            if not data:
+                break
+            if direction == "client_to_server":
+                print(f"Intercepted from client: {data.decode()}")
+                # Optionally modify data here
+                data += b" : altered"
+            elif direction == "server_to_client":
+                print(f"Intercepted from server: {data.decode()}")
+                # Optionally modify data here
+            destination.send(data)
+    
+    client_thread = threading.Thread(target=forward_data, args=(client_socket, remote_socket, "client_to_server"))
+    server_thread = threading.Thread(target=forward_data, args=(remote_socket, client_socket, "server_to_client"))
 
-        # Receive data from the remote host
-        remote_data = remote_socket.recv(4096)
-        if len(remote_data):
-            print(f"Intercepted from server: {remote_data.decode()}")
-            # Send the received data to the client
-            client_socket.send(remote_data)
+    client_thread.start()
+    server_thread.start()
 
+    client_thread.join()
+    server_thread.join()
+    
     client_socket.close()
     remote_socket.close()
 

@@ -1,4 +1,3 @@
-# server.py
 import socket
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -9,8 +8,12 @@ print("Server listening on port 12345")
 while True:
     client_socket, addr = server_socket.accept()
     print(f"Connection from {addr}")
-    data = client_socket.recv(1024)
-    print(f"Received: {data.decode()}")
-    client_socket.sendall(b"Hello from server")
+    while True:
+        data = client_socket.recv(1024)
+        if not data:
+            break
+        print(f"Received: {data.decode()}")
+        response = f"Server received: {data.decode()}"
+        client_socket.sendall(response.encode())
     client_socket.close()
 
