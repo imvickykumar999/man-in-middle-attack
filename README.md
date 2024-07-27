@@ -1,19 +1,19 @@
 # `man in the middle` : `attack`
-![image](https://github.com/user-attachments/assets/b0e40979-ddbd-4154-8e4c-edddd63014fa)
+![image](https://github.com/user-attachments/assets/71572f98-1f6f-4a21-bce0-390f3949715a)
 
 Here is an example of how a man-in-the-middle (MITM) attack could be simulated in Python. This is for educational purposes only to demonstrate how vulnerabilities can be exploited. It is illegal and unethical to use this knowledge to perform unauthorized attacks.
 
 This example sets up a basic MITM attack using socket programming, where the attacker intercepts communication between a client and a server.
-
-    Warning: 
+        
+>Warning: 
     
       This code is for educational purposes only. 
       Do not use it for malicious purposes.
 
 ### How to run this:
 
-1. Run the server: `python server.py`
-2. Run the MITM attacker: `python mitm.py`
+1. Run the MITM attacker: `python mitm.py`
+2. Run the server: `python server.py`
 3. Run the client: `python client.py`
 
 The MITM attacker intercepts and logs the data exchanged between the client and the server.
