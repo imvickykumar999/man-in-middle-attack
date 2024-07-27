@@ -1,5 +1,5 @@
 # `man in the middle` : `attack`
-![image](https://github.com/user-attachments/assets/15974d43-8aff-439a-80dc-b6fc14e6466f)
+![image](https://github.com/user-attachments/assets/b0e40979-ddbd-4154-8e4c-edddd63014fa)
 
 Here is an example of how a man-in-the-middle (MITM) attack could be simulated in Python. This is for educational purposes only to demonstrate how vulnerabilities can be exploited. It is illegal and unethical to use this knowledge to perform unauthorized attacks.
 
