@@ -1,23 +1,22 @@
 import socket
 import threading
 
+def forward_data(source, destination, direction):
+    while True:
+        data = source.recv(4096)
+        if not data:
+            break
+        if direction == "client_to_server":
+            print(f"Intercepted from client: {data.decode()}")
+            data += b' : ATTACK'
+        elif direction == "server_to_client":
+            print(f"Intercepted from server: {data.decode()}")
+            data += b' : ATTACK'
+        destination.send(data)
+
 def handle_client(client_socket, remote_host, remote_port):
     remote_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     remote_socket.connect((remote_host, remote_port))
-    
-    def forward_data(source, destination, direction):
-        while True:
-            data = source.recv(4096)
-            if not data:
-                break
-            if direction == "client_to_server":
-                print(f"Intercepted from client: {data.decode()}")
-                # Optionally modify data here
-                data += b" : altered"
-            elif direction == "server_to_client":
-                print(f"Intercepted from server: {data.decode()}")
-                # Optionally modify data here
-            destination.send(data)
     
     client_thread = threading.Thread(target=forward_data, args=(client_socket, remote_socket, "client_to_server"))
     server_thread = threading.Thread(target=forward_data, args=(remote_socket, client_socket, "server_to_client"))
